@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.MainActivity">
+    <include
+        android:id="@+id/toolbar_holder"
+        layout="@layout/toolbar_icon_with_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llSearch"
+        android:layout_width="@dimen/_220sdp"
+        android:layout_height="@dimen/_40sdp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_holder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/border_grey"
+        android:padding="@dimen/_4sdp">
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/svSearchTodo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:queryHint="Search title"
+            />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTodoList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llSearch"
+        />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivAddTodo"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:src="@drawable/plus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="@dimen/_10sdp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

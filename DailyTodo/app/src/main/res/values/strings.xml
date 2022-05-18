@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">DailyTodo</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="enter_your_email">Enter your email</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="don_t_have_an_account_sign_up">Don\'t have an account? <u><b><font fgcolor='#EE2F65'>SIGN UP</font></b></u></string>
+    <string name="don_t_have_an_account_sign_im">Already have an account? <u><b><font fgcolor='#EE2F65'>SIGN IN</font></b></u></string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="password_match">Password does not match</string>
+    <string name="password_sort">Password is too sort</string>
+    <string name="enter_your_todo_details">Enter your todo details</string>
+    <string name="enter_your_todo_head">Enter your todo head</string>
+    <string name="enter_todo_date">Select todo date</string>
+    <string name="add_todo">Add Todo</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="exit_application">Are you sure you want to delete this todo?</string>
+</resources>

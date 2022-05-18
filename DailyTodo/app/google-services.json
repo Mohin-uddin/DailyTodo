@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "96847163771",
+    "project_id": "daily-todo-ed27b",
+    "storage_bucket": "daily-todo-ed27b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:96847163771:android:aee77bd5b9b838d7f88dde",
+        "android_client_info": {
+          "package_name": "com.example.dailytodo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "96847163771-r5gi3ntf024c89rrl3sse7ej6jhnn04r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dailytodo",
+            "certificate_hash": "119c66ced40905e73670d0bf72f34b0eaf03ea8a"
+          }
+        },
+        {
+          "client_id": "96847163771-d4ga0un6oa1ics503u69sqth961lcssb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQmDHovnn17ZXDmaqMjiZNxqQVwVl6VoQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "96847163771-d4ga0un6oa1ics503u69sqth961lcssb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/SOFT/DailyTodo/app/src/main/res/drawable-v24/border_blue_round_shape_circle_size.xml" value="0.194" />
+        <entry key="..\:/SOFT/DailyTodo/app/src/main/res/drawable/blue_border.xml" value="0.194" />
+        <entry key="..\:/SOFT/DailyTodo/app/src/main/res/drawable/border_blue_round_shape_circle_size.xml" value="0.194" />
+        <entry key="..\:/SOFT/DailyTodo/app/src/main/res/drawable/border_grey.xml" value="0.194" />
+        <entry key="..\:/SOFT/DailyTodo/app/src/main/res/drawable/ic_baseline_search.xml" value="0.194" />
+        <entry key="..\:/SOFT/DailyTodo/app/src/main/res/layout/activity_add_todo.xml" value="0.25" />
+        <entry key="..\:/SOFT/DailyTodo/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/SOFT/DailyTodo/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/SOFT/DailyTodo/app/src/main/res/layout/activity_sign_up.xml" value="0.25" />
+        <entry key="..\:/SOFT/DailyTodo/app/src/main/res/layout/activity_splash.xml" value="0.10208333333333333" />
+        <entry key="..\:/SOFT/DailyTodo/app/src/main/res/layout/item_daily_todo.xml" value="0.25" />
+        <entry key="..\:/SOFT/DailyTodo/app/src/main/res/layout/item_dialuge_beef.xml" value="0.25" />
+        <entry key="..\:/SOFT/DailyTodo/app/src/main/res/layout/toolbar_icon_with_menu.xml" value="0.25" />
+        <entry key="..\:/SOFT/DailyTodo/app/src/main/res/menu/menu.xml" value="0.25" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
