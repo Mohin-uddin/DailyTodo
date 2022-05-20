@@ -8,12 +8,10 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,11 +24,10 @@ import com.example.dailytodo.viewmodel.MainViewModel
 import com.orhanobut.dialogplus.DialogPlus
 import com.orhanobut.dialogplus.ViewHolder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_add_todo.*
 import kotlinx.android.synthetic.main.activity_add_todo.view.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.item_daily_todo.view.*
 import kotlinx.android.synthetic.main.toolbar_icon_with_menu.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -39,28 +36,23 @@ import java.util.*
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), DeleteAndUpdateButtonSelection{
+    lateinit var dialog: DialogPlus
     lateinit var todoAdapter: TodosAdapter
     var cal = Calendar.getInstance()
     private lateinit var dialougeTodo: Dialog
+    lateinit var userId: String
 
+    var checker =false
     private val viewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val preference = getSharedPreferences("Todo", Context.MODE_PRIVATE)
-        val userId= preference?.getString("userID","")?:"false"
-        viewModel.getTodoList(userId)
+        userId= preference?.getString("userID","")?:"false"
+        viewModel.userAllTodos(userId)
         dialougeTodo= ConstValue.animation(this,0)
         adapterInitialize()
-        lifecycleScope.launch {
-            viewModel.todoList.collect {
-                if (it!=null){
-                    Log.e("checakdata", "onCreate: " )
-                    dialougeTodo.dismiss()
-                    todoAdapter.submitList(it)
-                }
-            }
-        }
+
 
         ivAddTodo.setOnClickListener {
             startActivity(Intent(this, AddTodoActivity::class.java))
@@ -78,16 +70,58 @@ class MainActivity : AppCompatActivity(), DeleteAndUpdateButtonSelection{
 
         svSearchTodo.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                viewModel.searchData(query)
+                viewModel.searchData(query,userId)
                 return false
             }
             override fun onQueryTextChange(newText: String): Boolean {
-                viewModel.searchData(newText)
+                viewModel.searchData(newText,userId)
                 return false
             }
         })
+
+        lifecycleScope.launch(Dispatchers.Main) {
+            viewModel.dailyTodoList.collect {
+                Log.e("CheckData", "updateTodo: last it")
+                if (it!=null){
+                    Log.e("CheckData", "updateTodo: last it")
+                    dialougeTodo.dismiss()
+                    todoAdapter.submitList(it)
+                }
+            }
+        }
+        lifecycleScope.launch(Dispatchers.Main)  {
+            viewModel.isLoaderState.collect {
+                if (it!=null){
+                    Log.e("CheckData", "updateTodo: "+viewModel.isLoaderState.value!!.state)
+                    if(viewModel.isLoaderState.value!!.state) {
+                        Log.e("CheckData", "updateTodo: true")
+                        viewModel.isLoaderState.value?.state = false
+
+                        if (checker){
+                            initializa()
+                            checker=false
+                        }
+                        if (dialougeTodo!=null)
+                            dialougeTodo.dismiss()
+                        val intent = intent
+                        finish()
+                        startActivity(intent)
+                        Toast.makeText(this@MainActivity, it.message, Toast.LENGTH_SHORT).show()
+
+                    }
+                }
+            }
+        }
+
+
     }
 
+    override fun onResume() {
+        super.onResume()
+        //dialougeTodo= ConstValue.animation(this,0)
+        viewModel.userAllTodos(userId)
+        Log.e("CheckData", "updateTodo: onResume")
+    }
 
     private fun adapterInitialize() {
         todoAdapter = TodosAdapter(this)
@@ -120,7 +154,7 @@ class MainActivity : AppCompatActivity(), DeleteAndUpdateButtonSelection{
 
     override fun updateTodo(todoModel: TodoModel, position: Int) {
 
-        val dialog = DialogPlus.newDialog(this)
+         dialog = DialogPlus.newDialog(this)
             .setContentHolder(ViewHolder(R.layout.activity_add_todo))
             .setExpanded(true) // This will enable the expand feature, (similar to android L share dialog)
             .create()
@@ -129,27 +163,15 @@ class MainActivity : AppCompatActivity(), DeleteAndUpdateButtonSelection{
         view.tvAddTodo.text="Update"
         datasetView(view,todoModel)
         view.tvAddTodo.setOnClickListener {
+            checker =true
             todoModel.title = view.etNoteTitle.text.toString()
             todoModel.details = view.etNoteDetails.text.toString()
             todoModel.date = view.tvDatePicker.text.toString()
-            viewModel.updateTodo(todoModel)
+            viewModel.fireUpdateTodo(todoModel)
         }
-
-
         dialog.show()
 
-        lifecycleScope.launch {
-            viewModel.isLoaderState.collect {
-                if (it!=null){
-                    if(viewModel.isLoaderState.value!!.state) {
-                        dialog.dismiss()
-                        Toast.makeText(this@MainActivity, it.message, Toast.LENGTH_LONG).show()
-                        viewModel.isLoaderState.value?.state = false
-                      //  viewModel.getTodoList()
-                    }
-                }
-            }
-        }
+
 
     }
 
@@ -160,10 +182,22 @@ class MainActivity : AppCompatActivity(), DeleteAndUpdateButtonSelection{
             .setPositiveButton(getString(R.string.yes),
                 DialogInterface.OnClickListener {
                         dialog, id ->
+                    dialougeTodo= ConstValue.animation(this,0)
                     viewModel.deleteTodo(todoModel)
                 })
             .setNegativeButton(getString(R.string.no), null)
             .show()
+//        lifecycleScope.launch {
+//            viewModel.isLoaderState.collect {
+//                if (it!=null){
+//                    if(viewModel.isLoaderState.value!!.state) {
+//                        Toast.makeText(this@MainActivity, it.message, Toast.LENGTH_LONG).show()
+//                        viewModel.isLoaderState.value?.state = false
+//                        onResume()
+//                    }
+//                }
+//            }
+//        }
     }
 
     private fun updateDateInView(): String {
@@ -171,5 +205,13 @@ class MainActivity : AppCompatActivity(), DeleteAndUpdateButtonSelection{
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         return sdf.format(cal.time)
     }
+
+
+
+    fun initializa()
+    {
+        dialog.dismiss()
+    }
+
 
 }

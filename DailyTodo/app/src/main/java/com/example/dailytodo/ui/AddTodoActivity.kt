@@ -14,6 +14,8 @@ import com.example.dailytodo.R
 import com.example.dailytodo.data.model.TodoModel
 import com.example.dailytodo.utils.ConstValue
 import com.example.dailytodo.viewmodel.TodoAddViewModel
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.orhanobut.dialogplus.DialogPlus
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_add_todo.*
@@ -49,10 +51,17 @@ class AddTodoActivity : AppCompatActivity() {
         }
         tvAddTodo.setOnClickListener {
              dialog = ConstValue.animation(this,0)
-            val todoAddModel = TodoModel("",etNoteTitle.text.toString(),etNoteDetails.text.toString()
+            val todos= Firebase.firestore.collection("User").document(userId).collection("Todos")
+            val key = todos.document().id
+            val todoAddModel = TodoModel(key,etNoteTitle.text.toString(),etNoteDetails.text.toString()
                 ,tvDatePicker.text.toString(),userId)
-            Log.e("Datasave", "onCreate: " )
-            viewModel.setData(todoAddModel)
+            lifecycleScope.launch {
+                todos.document(key).set(todoAddModel).addOnSuccessListener {
+                    dialog.dismiss()
+                    onBackPressed()
+                }
+            }
+
         }
 
         lifecycleScope.launch {
